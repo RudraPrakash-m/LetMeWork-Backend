@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const userRouter = require("./routes/user_route/userRoute");
 const retiredUserRouter = require("./routes/user_route/retireduserRoute");
 const adminRouter = require("./routes/adminRoute");
+const retiredUserBioRouter = require("./routes/user_route/retiredUserBioRoute");
 require("dotenv").config();
 const cors = require("cors");
 
@@ -17,6 +18,7 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true })); 
 
 const PORT = process.env.PORT || 8080;
 
@@ -28,8 +30,12 @@ app.use("/user", userRouter);
 
 app.use("/ruser", retiredUserRouter);
 
+app.use("/ruser/bio", retiredUserBioRouter);
+
 app.use("/admin", adminRouter);
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`);
 });
+
+

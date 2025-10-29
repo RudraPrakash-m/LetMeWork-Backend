@@ -99,9 +99,9 @@ const login = async (req, res) => {
     role = "user";
   }
 
-  const { name, age, domain, isVerified } = user;
+  const { name, age, domain, isVerified , _id } = user;
 
-  const payload = { name, email, age, domain, isVerified, role };
+  const payload = { name, email, age, domain, isVerified, role, _id };
 
   const token = jwt.sign(payload, process.env.SECRET_STRING, {
     expiresIn: "7d",
