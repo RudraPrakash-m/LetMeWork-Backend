@@ -25,7 +25,7 @@ const updateUserProfile = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const { name, email, password, passion, domain } = req.body;
+    const { name, email, password, passion } = req.body;
 
     const user = await USER_MODEL.findById(userId);
     if (!user) {
