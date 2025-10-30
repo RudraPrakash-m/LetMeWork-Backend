@@ -17,9 +17,7 @@ router.route("/create")
 router.route("/get/:retiredUserId")
 .get(authentication,verifyRole(["user"]), retiredUserBioController.getBio);
 
-
-
-
-
+router.route("/update/:retiredUserId")
+  .put(authentication, verifyRole(["user"]), upload.single("bioPic"), retiredUserBioController.updateBio);
 
 module.exports = router;

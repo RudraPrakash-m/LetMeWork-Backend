@@ -26,6 +26,19 @@ try{
 
     newBio.bioPic = {url,filename};
     await newBio.save();
+
+    if(!newBio){
+        return res.status(404).json({
+        success: false,
+        message: "Bio not found",
+        });
+    }
+
+    return res.status(200).json({
+        success: true,
+        message: "Bio updated successfully",
+        data: newBio,
+    });
 }
 catch(error){
     res
@@ -56,18 +69,64 @@ module.exports.getBio = async(req,res) =>{
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
         success: true,
         data: bioData,
     })
 
     }
-    catch(err){
-         res
+    catch(error){
+        res
       .status(500)
       .json({ success: false, message: "Server error", error: error.message });
     }
 }
 
+
+//update bio
+
+module.exports.updateBio = async(req,res)=>{
+    try{
+        const { retiredUserId } = req.params;
+        let {bio, experienceYear, expertise, achievements, languages } = req.body;
+
+        const updateData = {
+            bio,
+            experienceYear,
+            expertise: expertise ? expertise.split(",").map(e => e.trim()) : undefined,
+            achievements: achievements ? achievements.split(",").map(a => a.trim()) : undefined,
+            languages: languages ? languages.split(",").map(l => l.trim()) : undefined,
+        };
+
+        if(req.file){
+            updateData.bioPic = {
+                url: req.file.path,
+                filename: req.file.filename,
+            }
+        }
+
+
+        const updateBio = await RetiredUserBio.findByIdAndUpdate(retiredUserId,  { $set: updateData }, { new: true , runValidators: true });
+
+        if(!updateBio){
+            return res.status(404).json({
+            success: false,
+            message: "Bio not found",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Bio updated successfully",
+            data: updateBio,
+        });
+
+    }
+    catch(error){
+        res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+    }
+}
 
 
