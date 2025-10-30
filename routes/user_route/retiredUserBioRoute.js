@@ -20,4 +20,8 @@ router.route("/get/:retiredUserId")
 router.route("/update/:retiredUserId")
   .put(authentication, verifyRole(["user"]), upload.single("bioPic"), retiredUserBioController.updateBio);
 
+router.route("/delete/:retiredUserId")
+  .delete(authentication, verifyRole(["user"]), retiredUserBioController.deleteBio);
+
+
 module.exports = router;

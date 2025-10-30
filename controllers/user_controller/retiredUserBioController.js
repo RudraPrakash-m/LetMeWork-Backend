@@ -130,3 +130,35 @@ module.exports.updateBio = async(req,res)=>{
 }
 
 
+module.exports.deleteBio = async(req,res) =>{
+    try{
+        const { retiredUserId } = req.params;
+
+        if (!retiredUserId) {
+            return res.status(400).json({
+            success: false,
+            message: "retired user id is not found",
+            });
+        }
+
+        const deleteBio = await RetiredUserBio.findByIdAndDelete(retiredUserId);
+
+        if (!deleteBio) {
+            return res.status(404).json({
+            success: false,
+            message: "Bio not found or already deleted",
+            });
+        }
+
+    
+        return res.status(200).json({
+            success: true,
+            message: "Bio deleted successfully",
+            });
+    }
+    catch(error){
+        res
+        .status(500)
+        .json({ success: false, message: "Server error", error: error.message });
+    }
+}
