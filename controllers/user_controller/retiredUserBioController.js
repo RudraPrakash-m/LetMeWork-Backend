@@ -2,6 +2,8 @@ const express = require('express');
 const RetiredUserBio = require('../../models/retiredUserBio');
 
 
+
+//bio creation
 module.exports.createBio = async(req,res) =>{
 try{
     let {bio, experienceYear, expertise, achievements, languages } = req.body;
@@ -31,4 +33,41 @@ catch(error){
       .json({ success: false, message: "Server error", error: error.message });
 }
 }
+
+
+//get individual retired user bio
+module.exports.getBio = async(req,res) =>{
+    try{
+        const { retiredUserId } = req.params;
+       
+    if (!retiredUserId) {
+      return res.status(404).json({
+        success: false,
+        message: "id not found",
+      });
+    }
+
+    const bioData = await RetiredUserBio.findById(retiredUserId);
+    
+    if (!bioData) {
+      return res.status(404).json({
+        success: false,
+        message: "Bio not found",
+      });
+    }
+
+    res.status(200).json({
+        success: true,
+        data: bioData,
+    })
+
+    }
+    catch(err){
+         res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+    }
+}
+
+
 

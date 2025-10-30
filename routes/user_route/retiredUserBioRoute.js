@@ -14,6 +14,12 @@ const upload = multer({ storage });
 router.route("/create")
 .post(authentication, verifyRole(["user"]), upload.single("bioPic"),  retiredUserBioController.createBio);
 
+router.route("/get/:retiredUserId")
+.get(authentication,verifyRole(["user"]), retiredUserBioController.getBio);
+
+
+
+
 
 
 module.exports = router;
