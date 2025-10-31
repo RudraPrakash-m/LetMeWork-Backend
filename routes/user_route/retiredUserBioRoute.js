@@ -12,16 +12,16 @@ const upload = multer({ storage });
 
 
 router.route("/create")
-.post(authentication, verifyRole(["user"]), upload.single("bioPic"),  retiredUserBioController.createBio);
+.post(authentication, verifyRole(["retired"]), upload.single("bioPic"),  retiredUserBioController.createBio);
 
 router.route("/get/:retiredUserId")
-.get(authentication,verifyRole(["user"]), retiredUserBioController.getBio);
+.get(authentication,verifyRole(["retired"]), retiredUserBioController.getBio);
 
 router.route("/update/:retiredUserId")
-  .put(authentication, verifyRole(["user"]), upload.single("bioPic"), retiredUserBioController.updateBio);
+  .put(authentication, verifyRole(["retired"]), upload.single("bioPic"), retiredUserBioController.updateBio);
 
 router.route("/delete/:retiredUserId")
-  .delete(authentication, verifyRole(["user"]), retiredUserBioController.deleteBio);
+  .delete(authentication, verifyRole(["retired"]), retiredUserBioController.deleteBio);
 
 
 module.exports = router;
